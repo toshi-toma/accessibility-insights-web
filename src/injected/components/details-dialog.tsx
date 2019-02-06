@@ -18,6 +18,9 @@ import { CopyIssueDetailsButton, CopyIssueDetailsButtonDeps } from '../../common
 import { TargetPageActionMessageCreator } from '../target-page-action-message-creator';
 import { FlaggedComponent } from '../../common/components/flagged-component';
 import { ClientBrowserAdapter } from '../../common/client-browser-adapter';
+import { loadTheme } from '@uifabric/styling';
+import { HighContrastThemePalette } from '../../common/styles/high-contrast-theme-palette';
+import { DefaultThemePalette } from '../../common/styles/default-theme-palette';
 
 export enum CheckType {
     All,
@@ -109,7 +112,7 @@ export class DetailsDialog extends React.Component<IDetailsDialogProps, IDetails
         const failedRuleIds: string[] = Object.keys(this.props.failedRules);
         const ruleName: string = failedRuleIds[this.state.currentRuleIndex];
         const rule: DecoratedAxeNodeResult = this.props.failedRules[ruleName];
-
+        loadTheme(ruleName.length % 2 == 0 ? HighContrastThemePalette : DefaultThemePalette);
         if (this.props.featureFlagStoreData[FeatureFlags.shadowDialog]) {
             return this.withshadowDomTurnedOn(rule);
         } else {
