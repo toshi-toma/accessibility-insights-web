@@ -78,30 +78,16 @@ export class TestStepView extends React.Component<ITestStepViewProps> {
                     <AssessmentInstanceTable
                         instancesMap={this.props.instancesMap}
                         assessmentInstanceTableHandler={this.props.assessmentInstanceTableHandler}
-                        assessmentNavState={this.props.assessmentNavState}
-                        renderInstanceTableHeader={this.props.testStep.renderInstanceTableHeader}
-                        getDefaultMessage={this.props.testStep.getDefaultMessage}
+                        testStep={this.props.testStep}
                         assessmentDefaultMessageGenerator={this.props.assessmentDefaultMessageGenerator}
-                        hasVisualHelper={this.doesSelectedStepHaveVisualHelper()}
                     />
                 </React.Fragment>
             );
         }
     }
 
-    private getSelectedStep(): Readonly<TestStep> {
-        return this.props.assessmentsProvider.getStep(
-            this.props.assessmentNavState.selectedTestType,
-            this.props.assessmentNavState.selectedTestStep,
-        );
-    }
-
-    private doesSelectedStepHaveVisualHelper(): boolean {
-        return this.getSelectedStep().getVisualHelperToggle != null;
-    }
-
     private renderVisualHelperToggle(): JSX.Element {
-        if (!this.doesSelectedStepHaveVisualHelper()) {
+        if (!this.props.testStep.getVisualHelperToggle) {
             return null;
         }
 
@@ -113,6 +99,6 @@ export class TestStepView extends React.Component<ITestStepViewProps> {
             isStepScanned: this.props.isStepScanned,
         };
 
-        return this.getSelectedStep().getVisualHelperToggle(visualHelperToggleConfig);
+        return this.props.testStep.getVisualHelperToggle(visualHelperToggleConfig);
     }
 }

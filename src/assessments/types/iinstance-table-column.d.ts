@@ -7,5 +7,5 @@ import { IAssessmentInstanceRowData } from '../../DetailsView/components/assessm
 export interface IInstanceTableColumn {
     key: string;
     name: string;
-    onRender: (item: IAssessmentInstanceRowData) => JSX.Element;
+    onRender: (instance: IGeneratedAssessmentInstance) => JSX.Element;
 }
