@@ -112,7 +112,6 @@ export class DetailsDialog extends React.Component<IDetailsDialogProps, IDetails
         const failedRuleIds: string[] = Object.keys(this.props.failedRules);
         const ruleName: string = failedRuleIds[this.state.currentRuleIndex];
         const rule: DecoratedAxeNodeResult = this.props.failedRules[ruleName];
-        loadTheme(ruleName.length % 2 == 0 ? HighContrastThemePalette : DefaultThemePalette);
         if (this.props.featureFlagStoreData[FeatureFlags.shadowDialog]) {
             return this.withshadowDomTurnedOn(rule);
         } else {

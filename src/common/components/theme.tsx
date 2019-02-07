@@ -15,6 +15,7 @@ export interface ThemeInnerState {
 export type ThemeInnerProps = {
     deps: ThemeDeps;
     storeState?: ThemeInnerState;
+    applyThemeOnChildOnly?: boolean;
 };
 export type ThemeDeps = WithStoreSubscriptionDeps<ThemeInnerState> & {
     loadTheme: (theme) => void;
@@ -34,11 +35,13 @@ export class ThemeInner extends React.Component<ThemeInnerProps> {
         const enableHighContrast = this.isHighContrastEnabled(this.props);
         const className = css('theme-switcher', enableHighContrast && 'high-contrast-theme');
 
-        return (
-            <Helmet>
+        return this.props.applyThemeOnChildOnly ?
+            (<div className={className}>
+                {this.props.children}
+            </div>) :
+            (<Helmet>
                 <body className={className} />
-            </Helmet>
-        );
+            </Helmet>);
     }
 
     private isHighContrastEnabled(props: ThemeInnerProps): boolean {

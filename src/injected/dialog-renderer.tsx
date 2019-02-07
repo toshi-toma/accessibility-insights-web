@@ -10,7 +10,7 @@ import { HTMLElementUtils } from '../common/html-element-utils';
 import { NavigatorUtils } from '../common/navigator-utils';
 import { FeatureFlagStoreData } from '../common/types/store-data/feature-flag-store-data';
 import { WindowUtils } from '../common/window-utils';
-import { DetailsDialog } from './components/details-dialog';
+import { DetailsDialog, DetailsDialogDeps } from './components/details-dialog';
 import { DetailsDialogHandler } from './details-dialog-handler';
 import { FrameCommunicator, IMessageRequest } from './frameCommunicators/frame-communicator';
 import { FrameMessageResponseCallback } from './frameCommunicators/window-message-handler';
@@ -20,11 +20,21 @@ import { DecoratedAxeNodeResult, IHtmlElementAxeResults } from './scanner-utils'
 import { ShadowUtils } from './shadow-utils';
 import { getPlatform } from '../common/platform';
 import { ClientBrowserAdapter } from '../common/client-browser-adapter';
+import { StoreProxy } from '../common/store-proxy';
+import { UserConfigurationStoreData } from '../common/types/store-data/user-configuration-store';
+import { BaseClientStoresHub } from '../common/stores/base-client-stores-hub';
+import { StoreActionMessageCreatorFactory } from '../common/message-creators/store-action-message-creator-factory';
+import { StoreNames } from '../common/stores/store-names';
+import { ChromeAdapter } from '../background/browser-adapter';
+import { loadTheme } from 'office-ui-fabric-react';
+import { Theme, ThemeDeps } from '../common/components/theme';
 
 export interface DetailsDialogWindowMessage {
     data: IHtmlElementAxeResults;
     featureFlagStoreData: FeatureFlagStoreData;
 }
+
+export type DetailsDialogRendererDeps = DetailsDialogDeps & ThemeDeps;
 
 export class DialogRenderer {
     private static readonly renderDetailsDialogCommand = 'insights.detailsDialog';
@@ -75,25 +85,39 @@ export class DialogRenderer {
                 ? this.initializeDialogContainerInShadowDom()
                 : this.appendDialogContainer();
 
-            const deps = {
+            const chromeAdapter = new ChromeAdapter();
+            const url = new URL(window.location.href);
+            const tabId = parseInt(url.searchParams.get('tabId'), 10);
+            const store = new StoreProxy<UserConfigurationStoreData>(StoreNames[StoreNames.UserConfigurationStore], chromeAdapter);
+            const storesHub = new BaseClientStoresHub<any>([store]);
+            const storeActionMessageCreatorFactory = new StoreActionMessageCreatorFactory(new ChromeAdapter().sendMessageToFrames, tabId);
+            const storeActionMessageCreator = storeActionMessageCreatorFactory.forContent();
+
+            const deps: DetailsDialogRendererDeps = {
                 issueDetailsTextGenerator: new IssueDetailsTextGenerator(new NavigatorUtils(window.navigator).getBrowserSpec()),
                 windowUtils: this.windowUtils,
                 targetPageActionMessageCreator: mainWindowContext.getTargetPageActionMessageCreator(),
                 clientBrowserAdapter: this.clientBrowserAdapter,
+                storesHub,
+                storeActionMessageCreator,
+                loadTheme,
             };
 
             this.renderer(
-                <DetailsDialog
-                    deps={deps}
-                    failedRules={failedRules}
-                    elementSelector={elementSelector}
-                    target={target}
-                    dialogHandler={new DetailsDialogHandler(new HTMLElementUtils())}
-                    devToolStore={mainWindowContext.getDevToolStore()}
-                    devToolsShortcut={getPlatform(this.windowUtils).devToolsShortcut}
-                    devToolActionMessageCreator={mainWindowContext.getDevToolActionMessageCreator()}
-                    featureFlagStoreData={featureFlagStoreData}
-                />,
+                <Theme deps={deps} applyThemeOnChildOnly={true}>
+                    <DetailsDialog
+                        deps={deps}
+                        failedRules={failedRules}
+                        elementSelector={elementSelector}
+                        target={target}
+                        dialogHandler={new DetailsDialogHandler(new HTMLElementUtils())}
+                        devToolStore={mainWindowContext.getDevToolStore()}
+                        devToolsShortcut={getPlatform(this.windowUtils).devToolsShortcut}
+                        devToolActionMessageCreator={mainWindowContext.getDevToolActionMessageCreator()}
+                        featureFlagStoreData={featureFlagStoreData}
+                    />
+                </Theme>
+                ,
                 dialogContainer,
             );
         } else {
