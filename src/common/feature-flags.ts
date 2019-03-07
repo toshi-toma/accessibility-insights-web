@@ -13,6 +13,7 @@ export class FeatureFlags {
     public static readonly showAllFeatureFlags = 'showAllFeatureFlags';
     public static readonly scoping = 'scoping';
     public static readonly showBugFiling = 'showBugFiling';
+    public static readonly showTargetBugFiling = 'showTargetBugFiling';
     public static readonly showInstanceVisibility = 'showInstanceVisibility';
     public static readonly highContrastMode = 'highContrastMode';
 }
@@ -93,6 +94,14 @@ export function getAllFeatureFlagDetails(): FeatureFlagDetail[] {
             displayableDescription: 'Enable File Issue buttons that allow you to create GitHub issues pre-populated with failure details.',
             isPreviewFeature: false,
             forceDefault: true,
+        },
+        {
+            id: FeatureFlags.showTargetBugFiling,
+            defaultValue: false,
+            displayableName: 'Show file issue button on target page',
+            displayableDescription: 'Add a file issue button to the failure details dialog on the target page.',
+            isPreviewFeature: false,
+            forceDefault: false,
         },
         {
             id: FeatureFlags.showInstanceVisibility,

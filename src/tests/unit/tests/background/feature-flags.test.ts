@@ -22,6 +22,7 @@ describe('FeatureFlagsTest', () => {
             [FeatureFlags.showAllFeatureFlags]: false,
             [FeatureFlags.scoping]: false,
             [FeatureFlags.showBugFiling]: true,
+            [FeatureFlags.showTargetBugFiling]: false,
             [FeatureFlags.showInstanceVisibility]: false,
             [FeatureFlags.highContrastMode]: false,
         };
