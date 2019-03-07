@@ -183,7 +183,7 @@ export class DetailsDialog extends React.Component<DetailsDialogProps, DetailsDi
                 />
                 <FlaggedComponent
                     featureFlagStoreData={this.props.featureFlagStoreData}
-                    featureFlag={FeatureFlags.showBugFiling}
+                    featureFlag={FeatureFlags.showTargetBugFiling}
                     enableJSXElement={this.renderCreateBugButton(issueData)}
                 />
             </>

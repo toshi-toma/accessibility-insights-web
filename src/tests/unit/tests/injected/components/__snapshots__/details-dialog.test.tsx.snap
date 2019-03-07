@@ -147,7 +147,7 @@ exports[`DetailsDialogTest render: isDevToolsOpen = false, shadowDialog = false 
                 restoreFocus={false}
               />
             }
-            featureFlag="showBugFiling"
+            featureFlag="showTargetBugFiling"
             featureFlagStoreData={
               Object {
                 "shadowDialog": false,
@@ -378,7 +378,7 @@ exports[`DetailsDialogTest render: isDevToolsOpen = false, shadowDialog = true 1
                   restoreFocus={false}
                 />
               }
-              featureFlag="showBugFiling"
+              featureFlag="showTargetBugFiling"
               featureFlagStoreData={
                 Object {
                   "shadowDialog": true,
@@ -592,7 +592,7 @@ exports[`DetailsDialogTest render: isDevToolsOpen = false, shadowDialog = true 2
                 restoreFocus={false}
               />
             }
-            featureFlag="showBugFiling"
+            featureFlag="showTargetBugFiling"
             featureFlagStoreData={
               Object {
                 "shadowDialog": false,
@@ -818,7 +818,7 @@ exports[`DetailsDialogTest render: isDevToolsOpen = true, shadowDialog = true 1`
                   restoreFocus={false}
                 />
               }
-              featureFlag="showBugFiling"
+              featureFlag="showTargetBugFiling"
               featureFlagStoreData={
                 Object {
                   "shadowDialog": true,
@@ -1027,7 +1027,7 @@ exports[`DetailsDialogTest render: with relative help url 1`] = `
                 restoreFocus={false}
               />
             }
-            featureFlag="showBugFiling"
+            featureFlag="showTargetBugFiling"
             featureFlagStoreData={
               Object {
                 "shadowDialog": false,
