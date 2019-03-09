@@ -74,6 +74,7 @@
     --switcher-focus-border: var(--neutral-0);
     --help-links-section-background: var(--neutral-4);
     --help-links-section-border: var(--neutral-4);
+    --highlighted-text: var(--black);
 
     // Landmark colors
     --landmark-contentinfo: #00a88c;
@@ -120,14 +121,15 @@
         --check-box-border: var(--light-black);
         --check-box-tick: var(--light-black);
         --check-box-background: var(--communication-tint-40);
-        --row-selected-background: transparent;
+        --row-selected-background: var(--communication-tint-40);
         --row-hover-background: var(--communication-tint-40);
         --link: var(--communication-shade-10);
         --link-hover: var(--communication-shade-10);
         --switcher-border: var(--brand-blue);
         --switcher-focus-border: var(--brand-blue);
-        --help-links-section-background: transparent;
+        --help-links-section-background: var(--communication-tint-40);
         --help-links-section-border: var(--white);
+        --highlighted-text: var(--black);
     }
 }
 
@@ -206,7 +208,7 @@ $switcher-border: var(--switcher-border);
 $switcher-focus-border: var(--switcher-focus-border);
 $help-links-section-background: var(--help-links-section-background);
 $help-links-section-border: var(--help-links-section-border);
-
+$highlighted-text: var(--highlighted-text);
 // consistent colors
 $always-white: #ffffff;
 $always-black: #161616;
